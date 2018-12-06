@@ -16,8 +16,8 @@ public:
 		vector<string> parsed; //get the parsed string arguments
 	
 
-		myShell();
-		~myShell();
+		myShell(); //constructor
+		~myShell(); //destructor
 		
 		//void delete_spaces(string & str);
 		int get_command();
@@ -29,7 +29,7 @@ public:
 		void execute();
 
 		//Return a char array from a vector
-		char ** return_array(vector<string> vec);
+		//char ** return_array(vector<string> vec);
 
 
 
