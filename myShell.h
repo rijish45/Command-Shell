@@ -31,6 +31,9 @@ public:
 		//Return a char array from a vector
 		//char ** return_array(vector<string> vec);
 
+		//
+		bool search_command();
+
 
 
 

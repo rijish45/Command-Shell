@@ -3,6 +3,7 @@
 #include <cstring>
 #include <cstdlib>
 #include <sstream>
+#include <fstream>
 #include <string>
 #include <vector>
 #include <limits>
@@ -63,29 +64,16 @@ void myShell::split_input () {
 	for(string str; ss >> str; )
     	parsed.push_back(str);
 
+    // for (int i = 0; i < parsed.size(); i++)
+    // {
+    // 	cout << parsed[i] << endl;
+    // }
+
 }
 
 
-//Convert the vector of command into a char * array for the execve call
-
-// char ** myShell::return_array(vector<string> vec){
-
-// size_t index;
-// char ** c_array = new char*[vec.size() + 1];
-
-// for (vector<string>::iterator it = vec.begin(); it < vec.end(); it++) {
-//     c_array[index] = new char[it->length() + 1];
-//     strncpy(c_array[index], it->c_str(), it->length() + 1);
-//     index++;
-//   }
-//   c_array[index] = NULL;
-//   return c_array;
-
-// }
-
-
 /*Execute a single command usin fork and execve
-Consulted man pages for this part
+Consulted man pages for this part - waitpid(2)
 */
 
 void myShell::execute(){
@@ -168,6 +156,56 @@ void myShell::execute(){
  }
 
 
+
+
+bool myShell::search_command(){
+
+
+bool found = false;
+string command = parsed[0]; //The command user inputs
+vector<string> vec_path;
+char * path = getenv("PATH"); //Get the path variable 
+
+//Now that we have the path we need to parse it using the colon delimiter and store it in the vec_path vector
+istringstream ss(path);
+string token;
+while(getline(ss, token, ':')) 
+	vec_path.push_back(token);
+
+if(command.find('/') != string::npos){
+
+   ifstream ifs(command.c_str()); 
+   if(ifs.good()) //ifs.good() returns false if the file doesn't exist
+   		found = true;
+ 
+}
+// The file doesn't contain a / in it
+else{
+
+	for (vector<string>::iterator it = vec_path.begin(); it != vec_path.end(); it++) {
+      
+      string actual_path = *it + "/" + command;
+      ifstream ifs(actual_path.c_str()); 
+      if (ifs.good()) { //make sure the file exists
+  	    found = true;    
+  	    parsed[0] = actual_path; // replace the input command with the actual path
+  	    break;
+      }
+    }
+  }
+
+return found;
+
+}
+
+
+
+
+
+
+
+
+
 int main(int argc, char ** argv){
 
 	myShell myShell;
@@ -183,15 +221,25 @@ int main(int argc, char ** argv){
       		else{
       			
       			myShell.split_input();
+      			bool command_found = myShell.search_command();
       			
-      			if(myShell.parsed.size() > 0)
-      				myShell.execute();
+      			if(command_found){
+      				if(myShell.parsed.size() > 0)
+      					myShell.execute();
+      			}
+
+      			else if (command_found == false){
+      				cout << "Command " << myShell.parsed[0] << " not found" << "\n";
+      			}
+
 
       		}
 
 
 
    		 }
+
+  
 		
 
 return EXIT_SUCCESS;
