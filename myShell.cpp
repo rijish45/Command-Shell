@@ -174,7 +174,7 @@ vector<string> vec_path;
 //Now that we have the path we need to parse it using the colon delimiter and store it in the vec_path vector
 istringstream ss(path);
 string token;
-while(getline(ss, token, ':')) 
+while(getline(ss, token, ':'))  //Use : as the delimiter
 	vec_path.push_back(token);
 
 if(command.find('/') != string::npos){
@@ -390,6 +390,49 @@ return 1;
 }
 
 
+int myShell::run_export_command(){
+
+
+if(parsed.size() == 1){
+
+	cerr << "The export command requires more arguments" << endl;
+	return -1;
+}
+
+if(parsed.size() == 2){
+
+	if(validate_var(parsed[1])){
+
+		map<string, string>::iterator it = var_map.find(parsed[1]);
+		if(it == var_map.end()){
+			cout << "The variable has not been defined yet. Set it first." << endl;
+			return -1;
+		}
+		else
+		{
+			if ( setenv(it->first.c_str(), it->second.c_str(), 1) != 0) {
+				perror("The export command encountered a problem");
+				return -1;
+			}
+		}
+	
+
+	}
+	else{
+		cerr << "The variable name " << parsed[1] << " is not valid" << endl;
+		return -1;
+	}
+
+
+}
+
+
+return 1;
+
+
+
+}
+
 int main(int argc, char ** argv){
 
 	myShell myShell;
@@ -413,6 +456,8 @@ int main(int argc, char ** argv){
       				status = myShell.run_set_command();
       			else if(myShell.parsed[0] == "inc")
       				status = myShell.run_inc_command();
+      			else if(myShell.parsed[0] == "export")
+      				status = myShell.run_export_command();
 
       		
       			else{

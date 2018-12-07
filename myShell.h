@@ -42,4 +42,7 @@ public:
 
 		int run_inc_command();
 		bool inc_number_helper(const string & str);
+
+		int run_export_command();
+
 };
