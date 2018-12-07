@@ -325,6 +325,96 @@ else if(parsed.size() == 3){
 }
 
 
+
+bool myShell::replace_str(string & str, const string & from, const string & to) {
+    size_t start_pos = str.find(from);
+    if(start_pos == string::npos)
+        return false;
+    str.replace(start_pos, from.length(), to);
+    return true;
+}
+
+
+
+//Let the string be abc$hello-$world***
+
+
+void myShell::replace_var(){
+
+	for(int i = 0; i < parsed.size(); i++){
+		if(parsed[0].find("$") == string::npos){
+			continue;
+		}
+		
+		else {	//Case where there is atleast one $
+			
+			string evaluate = parsed[i]; //String is abc$hello-$world***
+			size_t found_index = evaluate.find("$");
+			string substr1 = evaluate.substr(found_index + 1); //substr1 is now hello-$world***
+			string substr2;
+			size_t found_index1 = substr1.find("$");
+			if(found_index != string::npos){
+				
+			}
+			
+			//case where there is no other variable we need to evaluate, confirmed one dollar sign
+			if(found_index1 == string::npos){ //substr is now hello-
+				int pos_illegal;
+				for(int i = 0; i < substr1.size(); i++){
+					if(!isalnum(substr1[i])){
+						pos_illegal = i;
+						break;
+					}
+					else
+						pos_illegal = -1;
+				}
+					cout << pos_illegal << endl;
+
+				    string var;
+					if(pos_illegal == -1)
+						var = substr1;
+					else
+						var = substr1.substr(0, pos_illegal);
+						
+			
+					string to_be_replaced = "$" + var;
+					cout << to_be_replaced << endl;
+			        string replace_value;
+					map<string, string>::iterator it = var_map.find(var);
+					if(it != var_map.end()){
+
+							replace_value = var_map[var];
+							bool flag_val = replace_str(parsed[i], to_be_replaced, replace_value);
+					}
+
+				} //one dollar sign evaluated
+
+		else{ //evaluate second $ sign hello-$world***
+
+				substr2 = evaluate.substr(found_index1 + 1);
+
+				
+
+		   }//evaluate second $ sign
+
+
+}//case where there is atleast one $ ends
+	
+
+
+	} //for loop through all the strings end here
+
+
+
+}
+
+
+
+
+
+
+
+
 bool myShell::inc_number_helper(const string & str)
 {
     string::const_iterator it = str.begin();
@@ -458,6 +548,10 @@ int main(int argc, char ** argv){
       				status = myShell.run_inc_command();
       			else if(myShell.parsed[0] == "export")
       				status = myShell.run_export_command();
+      			else if(myShell.parsed[0].find("$") != string::npos){
+      				myShell.replace_var();
+      				cout << myShell.parsed[0] << endl;
+      			}
 
       		
       			else{

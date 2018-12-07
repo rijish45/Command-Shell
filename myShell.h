@@ -45,4 +45,8 @@ public:
 
 		int run_export_command();
 
+		void replace_var();
+		bool replace_str(string & str, const string & from, const string & to);
+
+
 };
