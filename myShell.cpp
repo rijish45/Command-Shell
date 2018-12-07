@@ -166,10 +166,13 @@ void myShell::execute(){
 bool myShell::search_command(){
 
 
+char * path = getenv("PATH");  //Get the path variable 
 bool found = false;
+
+
 string command = parsed[0]; //The command user inputs
 vector<string> vec_path;
-char * path = getenv("PATH"); //Get the path variable 
+
 
 //Now that we have the path we need to parse it using the colon delimiter and store it in the vec_path vector
 istringstream ss(path);
@@ -286,7 +289,7 @@ int myShell::run_set_command(){
 		}
 
 		else if(!validate_var(parsed[1])){
-			cout << "The variable name is illegal" << endl;
+			cerr << "The variable name is illegal" << endl;
 			return -1;
 		}
 
@@ -323,6 +326,73 @@ else if(parsed.size() == 3){
 	return 1;
 
 }
+
+
+bool myShell::inc_number_helper(const string & str)
+{
+    string::const_iterator it = str.begin();
+    while (it != str.end() && isdigit(*it)) ++it;
+    return !str.empty() && it == str.end();
+}
+
+
+int myShell::run_inc_command(){
+
+if(parsed.size() == 1){
+  cerr << "The inc command requires more arguments" << endl;
+  return -1;
+}
+
+else if (parsed.size() == 2){
+
+   if(validate_var(parsed[1]))
+   {
+		map <string, string>::iterator it = var_map.find(parsed[1]);
+		if(it == var_map.end()){
+			var_map.insert(make_pair(parsed[1], "1"));
+			cout << "The variable " << parsed[1] << " has been incremented to " << var_map[parsed[1]] << endl;
+		}
+
+		else{
+
+			if(inc_number_helper(var_map[parsed[1]]) == false){
+				var_map.erase(it);
+				var_map.insert(make_pair(parsed[1], "1"));
+				cout << "The variable " << parsed[1] << " has been incremented to " << var_map[parsed[1]] << endl;
+			}
+
+			else{
+
+				int num = stoi(var_map[parsed[1]]);
+				num++;
+				var_map.erase(it);
+				var_map.insert(make_pair(parsed[1], to_string(num)));
+				cout << "The variable " << parsed[1] << " has been incremented to " << var_map[parsed[1]] << endl;
+				}
+
+		}
+}
+
+else{
+		cerr << "The variable name is illegal" << endl;
+		return -1;
+	}
+
+}
+
+else if(parsed.size() > 2){
+
+	cerr << "The inc command can handle on varibale at a time" << endl;
+	return -1;
+}
+
+	
+return 1;
+
+
+}
+
+
     
 
 
@@ -349,10 +419,11 @@ int main(int argc, char ** argv){
       				status = myShell.run_cd_command();
       			else if(myShell.parsed[0] == "set")
       				status = myShell.run_set_command();
+      			else if(myShell.parsed[0] == "inc")
+      				status = myShell.run_inc_command();
+
       		
-      			
-      			else
-      			{
+      			else{
       			
       				bool command_found = myShell.search_command();
       				if(command_found){

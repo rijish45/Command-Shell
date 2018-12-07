@@ -31,7 +31,7 @@ public:
 		//Return a char array from a vector
 		//char ** return_array(vector<string> vec);
 
-		//
+		
 		bool search_command();
 
 		bool validate_var(string & str);
@@ -39,6 +39,9 @@ public:
 
 		int run_cd_command();
 
+		int run_inc_command();
+
+		bool inc_number_helper(const string & str);
 
 
 
