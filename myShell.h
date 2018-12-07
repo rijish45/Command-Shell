@@ -34,6 +34,11 @@ public:
 		//
 		bool search_command();
 
+		bool validate_var(string & str);
+		int run_set_command();
+
+		int run_cd_command();
+
 
 
 

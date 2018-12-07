@@ -7,10 +7,12 @@
 #include <string>
 #include <vector>
 #include <limits>
+#include <map>
 #include <unistd.h>
 #include <iterator>
 
 extern char ** environ; //needed for execve call 
+map< string, string > var_map;
 
 
 
@@ -72,6 +74,11 @@ void myShell::split_input () {
 }
 
 
+
+
+
+
+
 /*Execute a single command usin fork and execve
 Consulted man pages for this part - waitpid(2)
 */
@@ -112,7 +119,6 @@ void myShell::execute(){
       			
     }
  		
-
     else {                    /* Code executed by parent */
         
         usleep(5000);
@@ -157,7 +163,6 @@ void myShell::execute(){
 
 
 
-
 bool myShell::search_command(){
 
 
@@ -199,9 +204,126 @@ return found;
 }
 
 
+int myShell::run_cd_command(){
+
+if(parsed.size() > 2){
+
+	cerr << "Too many arguments for cd" << endl;
+	return -1;
+}
+
+else if(parsed.size() == 1 || parsed[1] == "~"){
+
+	string destination = getenv("HOME");
+	if(chdir(destination.c_str()) >= 0 ){
+		return 1;
+	}
+	else {
+        perror("-bash: cd");
+        return -1;
+    }
+
+}
+else{
+
+		if(chdir(parsed[1].c_str()) >= 0){
+			return 1;
+		}
+		else{
+			perror("-bash: cd");
+        	return -1;
+        }
+	}
+
+}
+
+bool myShell::validate_var(string & str){
+
+for (int i = 0; i < str.size(); i++) {
+    if (!isalnum(str[i]) && str[i] != '_') 
+    	return false;
+  }
+
+  return true;
+
+}
 
 
 
+
+int myShell::run_set_command(){
+	
+	if(parsed.size() < 2){
+		cerr << "The set command requires more arguments" << endl;
+		return -1;
+	}
+
+
+	else if(parsed.size() > 3){
+
+		cerr << "Too many arguments for the set command" << endl;
+		return -1;
+
+	}
+
+	else if(parsed.size() == 2){
+		if(validate_var(parsed[1])){
+			map<string, string>::iterator it = var_map.find(parsed[1]);
+			if(it == var_map.end()){
+				var_map.insert(make_pair(parsed[1], " "));
+				cout << "The variable " << parsed[1] << " has been set to whitespace" << endl;
+				//cout << var_map[parsed[1]] << endl;
+			}
+			else{
+				var_map.erase(it);
+				var_map.insert(make_pair(parsed[1], " "));
+				cout << "The variable " << parsed[1] << " has been re-set to whitespace" << endl;
+				//cout << var_map[parsed[1]] << endl;
+			
+			}
+		
+           return 1;
+		}
+
+		else if(!validate_var(parsed[1])){
+			cout << "The variable name is illegal" << endl;
+			return -1;
+		}
+
+
+
+	}
+    
+
+else if(parsed.size() == 3){
+		if(validate_var(parsed[1])){
+			map<string, string>::iterator it = var_map.find(parsed[1]);
+			if(it == var_map.end()){
+				var_map.insert(make_pair(parsed[1], parsed[2]));
+				cout << "The variable " << parsed[1] << " has been set to " <<  parsed[2] << endl;
+				//cout << var_map[parsed[1]] << endl;
+			}
+			else{
+				var_map.erase(it);
+				var_map.insert(make_pair(parsed[1], parsed[2]));
+				cout << "The variable " << parsed[1] << " has been re-set to " << parsed[2] << endl;
+				//cout << var_map[parsed[1]] << endl;
+			}
+			return 1;
+		}
+
+		else if(!validate_var(parsed[1])){
+			cout << "The variable name is illegal" << endl;
+			return -1;
+		}
+	
+
+	}
+
+	return 1;
+
+}
+    
 
 
 
@@ -221,27 +343,41 @@ int main(int argc, char ** argv){
       		else{
       			
       			myShell.split_input();
-      			bool command_found = myShell.search_command();
+      			int status;
       			
-      			if(command_found){
-      				if(myShell.parsed.size() > 0)
-      					myShell.execute();
-      			}
+      			if(myShell.parsed[0] == "cd")
+      				status = myShell.run_cd_command();
+      			else if(myShell.parsed[0] == "set")
+      				status = myShell.run_set_command();
+      		
+      			
+      			else
+      			{
+      			
+      				bool command_found = myShell.search_command();
+      				if(command_found){
+      					if(myShell.parsed.size() > 0)
+      						myShell.execute();
+      				}
 
       			else if (command_found == false){
       				cout << "Command " << myShell.parsed[0] << " not found" << "\n";
       			}
 
-
       		}
 
+      	}
+      }
+
+		return EXIT_SUCCESS;
+
+}
+   	
+
+	
 
 
-   		 }
+   	
 
   
 		
-
-return EXIT_SUCCESS;
-
-}
