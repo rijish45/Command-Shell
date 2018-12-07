@@ -76,9 +76,6 @@ void myShell::split_input () {
 
 
 
-
-
-
 /*Execute a single command usin fork and execve
 Consulted man pages for this part - waitpid(2)
 */
@@ -393,11 +390,6 @@ return 1;
 }
 
 
-    
-
-
-
-
 int main(int argc, char ** argv){
 
 	myShell myShell;
@@ -443,11 +435,6 @@ int main(int argc, char ** argv){
 		return EXIT_SUCCESS;
 
 }
-   	
-
-	
-
-
    	
 
   
