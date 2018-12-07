@@ -336,39 +336,53 @@ bool myShell::replace_str(string & str, const string & from, const string & to) 
 
 
 
+
 //Let the string be abc$hello-$world***
 
 
 void myShell::replace_var(){
 
 	for(int i = 0; i < parsed.size(); i++){
-		if(parsed[0].find("$") == string::npos){
+		
+		if(parsed[i].find("$") == string::npos){
 			continue;
 		}
 		
 		else {	//Case where there is atleast one $
 			
 			string evaluate = parsed[i]; //String is abc$hello-$world***
+			
 			size_t found_index = evaluate.find("$");
 			string substr1 = evaluate.substr(found_index + 1); //substr1 is now hello-$world***
 			string substr2;
 			size_t found_index1 = substr1.find("$");
-			if(found_index != string::npos){
-				
-			}
 			
-			//case where there is no other variable we need to evaluate, confirmed one dollar sign
-			if(found_index1 == string::npos){ //substr is now hello-
-				int pos_illegal;
-				for(int i = 0; i < substr1.size(); i++){
-					if(!isalnum(substr1[i])){
-						pos_illegal = i;
-						break;
+			if(found_index1 != string::npos){
+				substr2 = substr1.substr(found_index1 + 1); //substr 2 is now world***
+				substr1 = substr1.substr(0,found_index1);   //substr 1 is now  hello-
+				//cout << substr1 << endl;
+				//cout << substr2 << endl;
+
+			}
+			else{
+				substr2 = "";
+			    //subsr1 = hello-
+			}
+
+			if(substr2.compare("") == 0){ //just need to evaluate substr1
+
+					int pos_illegal;
+					for(int i = 0; i < substr1.size(); i++){
+						if(!isalnum(substr1[i])){
+							pos_illegal = i;
+							break;
 					}
+					
 					else
 						pos_illegal = -1;
 				}
-					cout << pos_illegal << endl;
+
+					//cout << pos_illegal << endl;
 
 				    string var;
 					if(pos_illegal == -1)
@@ -376,9 +390,40 @@ void myShell::replace_var(){
 					else
 						var = substr1.substr(0, pos_illegal);
 						
-			
 					string to_be_replaced = "$" + var;
-					cout << to_be_replaced << endl;
+					//cout << to_be_replaced << endl;
+			        string replace_value;
+					map<string, string>::iterator it = var_map.find(var);
+					if(it != var_map.end()){
+
+							replace_value = var_map[var];
+							bool flag_val = replace_str(parsed[i], to_be_replaced, replace_value);
+					}
+				} //evaluated substr1
+
+			else { //need to evaluate both substr1 and substr2
+
+				int pos_illegal;
+					for(int i = 0; i < substr1.size(); i++){
+						if(!isalnum(substr1[i])){
+							pos_illegal = i;
+							break;
+					}
+					
+					else
+						pos_illegal = -1;
+				}
+
+					//cout << pos_illegal << endl;
+
+				    string var;
+					if(pos_illegal == -1)
+						var = substr1;
+					else
+						var = substr1.substr(0, pos_illegal);
+						
+					string to_be_replaced = "$" + var;
+					//cout << to_be_replaced << endl;
 			        string replace_value;
 					map<string, string>::iterator it = var_map.find(var);
 					if(it != var_map.end()){
@@ -387,32 +432,46 @@ void myShell::replace_var(){
 							bool flag_val = replace_str(parsed[i], to_be_replaced, replace_value);
 					}
 
-				} //one dollar sign evaluated
+				int pos_illegal2;
+					
+					for(int i = 0; i < substr2.size(); i++){
+						if(!isalnum(substr2[i])){
+							pos_illegal2 = i;
+							break;
+					}
+					
+					else
+						pos_illegal2 = -1;
+				}
 
-		else{ //evaluate second $ sign hello-$world***
+					//cout << pos_illegal2 << endl;
 
-				substr2 = evaluate.substr(found_index1 + 1);
+				    string var2;
+					if(pos_illegal2 == -1)
+						var2 = substr2;
+					else
+						var2 = substr2.substr(0, pos_illegal2);
+						
+					string to_be_replaced2 = "$" + var2;
+					//cout << to_be_replaced << endl;
+			        string replace_value2;
+					map<string, string>::iterator it2 = var_map.find(var2);
+					if(it2 != var_map.end()){
 
-				
+							replace_value2 = var_map[var2];
+							bool flag_val2 = replace_str(parsed[i], to_be_replaced2, replace_value2);
+					}
 
-		   }//evaluate second $ sign
-
-
-}//case where there is atleast one $ ends
-	
-
-
-	} //for loop through all the strings end here
-
-
-
-}
-
-
-
+	  } //evaluated both substr1 and substr2
 
 
+}// case where $ exists
 
+
+} //For loop ends, we have gone through all parsed commands and evaluated the variables
+
+
+} //function ends
 
 
 bool myShell::inc_number_helper(const string & str)
