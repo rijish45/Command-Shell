@@ -641,10 +641,16 @@ int main(int argc, char ** argv){
       			
       			int status;
       			
-      			if(myShell.parsed[0] == "cd")
+      			if(myShell.parsed[0] == "cd"){
+      				
+      				myShell.replace_var();
       				status = myShell.run_cd_command();
-      			else if(myShell.parsed[0] == "set")
+      			}
+      			else if(myShell.parsed[0] == "set"){
+      				
+      				myShell.replace_var();
       				status = myShell.run_set_command();
+      			}
       			else if(myShell.parsed[0] == "inc")
       				status = myShell.run_inc_command();
       			else if(myShell.parsed[0] == "export")
