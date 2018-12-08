@@ -1,0 +1,69 @@
+
+Hello, and welcome to my Command-Shell. In this project, I have implemented all the required features till step 3 of the project desciption.
+In the future, I plan to add piping and re-direction features to this command shell.
+
+In this document, I'm listing the output of the test cases one by one and justifying the behaviour of my command shell.
+
+Step 1: Read a command name and, run it
+-------------------------------------------------------
+
+
+
+Case 1: Run ./myShell < testcases/test01.txt 
+Program Behaviour:
+myShell:/Users/rijishganguly/Desktop/Project $ README.md		myShelltestcases
+TESTING.txt		myShell.cpp
+commandShell.txt	myShell.h
+Program exited with status 0
+myShell:/Users/rijishganguly/Desktop/Project $ 
+
+The program behaviour is justified as test01.txt had the command /bin/ls. It prints the content of the current directory
+and then exits. After the first program exits, we get another shell prompt for our next command. As the next command in the text file is EOF,
+the program exits.
+
+
+Case 2: Run ./myShell < testcases/test02.txt 
+Program Behaviour:
+myShell:/Users/rijishganguly/Desktop/Project $ total 488
+drwxr-xr-x  11 rijishganguly  staff   352B Dec  7 23:08 .
+drwx------+  5 rijishganguly  staff   160B Dec  5 19:02 ..
+-rw-r--r--@  1 rijishganguly  staff   6.0K Dec  6 21:01 .DS_Store
+drwxr-xr-x  12 rijishganguly  staff   384B Dec  7 19:37 .git
+-rw-r--r--   1 rijishganguly  staff   2.4K Dec  7 19:36 README.md
+-rw-r--r--@  1 rijishganguly  staff   991B Dec  7 23:14 TESTING.txt
+-rw-r--r--   1 rijishganguly  staff   6.9K Dec  6 15:46 commandShell.txt
+-rwxr-xr-x   1 rijishganguly  staff   199K Dec  7 23:06 myShell
+-rw-r--r--   1 rijishganguly  staff    14K Dec  7 20:40 myShell.cpp
+-rw-r--r--   1 rijishganguly  staff   1.3K Dec  7 19:08 myShell.h
+drwxr-xr-x   4 rijishganguly  staff   128B Dec  7 23:15 testcases
+Program exited with status 0
+myShell:/Users/rijishganguly/Desktop/Project $ 
+
+The program behaviour is justified as the commamd in the text file was /bin/ls -alh. Here the ls program takes the parameters
+-alh which lists out all the direcory entries, evaluates the file information and prints them in a human readable manner. After the first program exits, we get another shell prompt for our next command. As the next command in the text file is EOF, the program exits.
+
+
+Case 3: Run ./myShell < testcases/test03.txt 
+Program behaviour: 
+myShell:/Users/rijishganguly/Desktop/Project $ total 488
+drwxr-xr-x  11 rijishganguly  staff   352B Dec  7 23:08 .
+drwx------+  5 rijishganguly  staff   160B Dec  5 19:02 ..
+-rw-r--r--@  1 rijishganguly  staff   6.0K Dec  6 21:01 .DS_Store
+drwxr-xr-x  12 rijishganguly  staff   384B Dec  7 19:37 .git
+-rw-r--r--   1 rijishganguly  staff   2.4K Dec  7 19:36 README.md
+-rw-r--r--@  1 rijishganguly  staff   2.2K Dec  7 23:24 TESTING.txt
+-rw-r--r--   1 rijishganguly  staff   6.9K Dec  6 15:46 commandShell.txt
+-rwxr-xr-x   1 rijishganguly  staff   199K Dec  7 23:06 myShell
+-rw-r--r--   1 rijishganguly  staff    14K Dec  7 20:40 myShell.cpp
+-rw-r--r--   1 rijishganguly  staff   1.3K Dec  7 19:08 myShell.h
+drwxr-xr-x   5 rijishganguly  staff   160B Dec  7 23:25 testcases
+Program exited with status 0
+myShell:/Users/rijishganguly/Desktop/Project $ 
+
+Here the program takes the same command as before but the parameters are separated by white spaces. The command in the file was /bin/ls -a -l -h.
+After the first program exits, we get another shell prompt for our next command. As the next command in the text file is EOF, the program exits.
+
+
+Case 4: Run ./myShell < testcases/test03.txt
+Program behaviour:
+

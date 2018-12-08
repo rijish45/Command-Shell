@@ -54,7 +54,7 @@ public:
 		//The functions required to support to accessing commands
 		
 		void replace_var();	//Replace the variable
-		bool replace_str(string & str, const string & from, const string & to); //Helper function for the replace_var function
+		void replace_str(string & str, const string & from, const string & to); //Helper function for the replace_var function
 
 
 };
