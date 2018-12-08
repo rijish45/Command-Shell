@@ -12,7 +12,7 @@
 #include <iterator>
 
 extern char ** environ; //needed for execve call 
-map< string, string > var_map;
+map< string, string > var_map; //map to store variables
 
 
 
@@ -337,6 +337,10 @@ bool myShell::replace_str(string & str, const string & from, const string & to) 
 
 
 
+
+
+
+
 //Let the string be abc$hello-$world***
 
 
@@ -399,7 +403,19 @@ void myShell::replace_var(){
 							replace_value = var_map[var];
 							bool flag_val = replace_str(parsed[i], to_be_replaced, replace_value);
 					}
-				} //evaluated substr1
+
+					else{
+						if ((getenv(var.c_str())) != NULL) {
+            			char * var_value = getenv(var.c_str());
+           				replace_value = var_value;
+           				bool flag_val = replace_str(parsed[i], to_be_replaced, replace_value);
+
+           				}
+           			}
+
+
+
+		} //evaluated substr1
 
 			else { //need to evaluate both substr1 and substr2
 
@@ -432,6 +448,18 @@ void myShell::replace_var(){
 							bool flag_val = replace_str(parsed[i], to_be_replaced, replace_value);
 					}
 
+					else{
+						
+						if ((getenv(var.c_str())) != NULL) {
+            			char * var_value = getenv(var.c_str());
+           				replace_value = var_value;
+           				bool flag_val = replace_str(parsed[i], to_be_replaced, replace_value);
+           			}
+            
+				}
+
+
+
 				int pos_illegal2;
 					
 					for(int i = 0; i < substr2.size(); i++){
@@ -461,6 +489,17 @@ void myShell::replace_var(){
 							replace_value2 = var_map[var2];
 							bool flag_val2 = replace_str(parsed[i], to_be_replaced2, replace_value2);
 					}
+
+
+					else{
+						
+						if ((getenv(var2.c_str())) != NULL) {
+            			char * var_value2 = getenv(var2.c_str());
+           				replace_value2 = var_value2;
+           				bool flag_val = replace_str(parsed[i], to_be_replaced2, replace_value2);
+           			}
+            
+			}
 
 	  } //evaluated both substr1 and substr2
 
@@ -597,6 +636,9 @@ int main(int argc, char ** argv){
       		else{
       			
       			myShell.split_input();
+      			
+      			
+      			
       			int status;
       			
       			if(myShell.parsed[0] == "cd")
@@ -607,7 +649,7 @@ int main(int argc, char ** argv){
       				status = myShell.run_inc_command();
       			else if(myShell.parsed[0] == "export")
       				status = myShell.run_export_command();
-      			else if(myShell.parsed[0].find("$") != string::npos){
+      			else if(myShell.parsed[0].find("$") != string::npos && (myShell.parsed.size() == 1)){
       				myShell.replace_var();
       				cout << myShell.parsed[0] << endl;
       			}
@@ -615,6 +657,7 @@ int main(int argc, char ** argv){
       		
       			else{
       			
+      				myShell.replace_var();
       				bool command_found = myShell.search_command();
       				if(command_found){
       					if(myShell.parsed.size() > 0)
