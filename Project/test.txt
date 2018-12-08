@@ -1,0 +1,3 @@
+ls -a
+cd /Users
+ls -alh

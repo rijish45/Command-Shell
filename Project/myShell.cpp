@@ -14,9 +14,6 @@
 extern char ** environ; //needed for execve call 
 map < string, string > var_map; //map to store variables
 
-
-
-
 /*
 
  This function takes the command from the user of the shell and exits if
@@ -29,27 +26,20 @@ int myShell::get_command(){
 
 char current[1024];
 getcwd(current, sizeof(current));
-
 cout << "myShell:" << current << " $ "; // The shell prompt
 getline(cin, command);
 
 if(cin.eof()){
-
-	cout << endl;
-	setbuf(stdin, NULL);
+    
+    cout << endl; 
+	cin.clear();
 	exit(EXIT_SUCCESS);
 }
 
-else if (cin.fail()) {
-    cin.clear();
+else if(cin.fail()){
+	cin.clear();
 }
 
-else if(command.size() == 0){
-
-	
-	setbuf(stdin, NULL); //set the buffer to NULL
-	return -1;
-}
 
 else if (command.compare("exit") == 0){
 	cout << "Program exited with status " << EXIT_SUCCESS << "\n";
@@ -58,23 +48,22 @@ else if (command.compare("exit") == 0){
 
 }
 
+else if(command.size() == 0)
+	return -1;
+
 else{
+	
 	command.erase(0, command.find_first_not_of(" \t\n\r"));
 	command.erase(command.find_last_not_of(" \t\n\r") + 1);
 }
 
-setbuf(stdin, NULL);
 return 0;
-
 
 }
 
 
 myShell::myShell(){}; // The constructor for our myShell
-
-
 myShell::~myShell(){}; // The destructor for our myShell
-
 
 
 /*
@@ -96,9 +85,6 @@ void myShell::split_input () {
     // }
 
 }
-
-
-
 
 /*
 
@@ -124,9 +110,6 @@ void myShell::execute(){
   }
   c_array[index] = NULL;
   
-	
-	 
-
 	pid = fork();
 	if (pid == -1) { //Child process creation fails
         
@@ -183,11 +166,7 @@ void myShell::execute(){
   	}
   	
   	delete [] c_array;
-
-
-  	
-
- }
+}
 
 
 /*
@@ -200,12 +179,8 @@ void myShell::execute(){
 
 
 bool myShell::search_command(){
-
-
 char * path = getenv("PATH");  //Get the path variable 
 bool found = false;
-
-
 string command = parsed[0]; //The command user inputs
 vector<string> vec_path;
 
@@ -248,7 +223,6 @@ Implementation of the built-in cd command which helps to
 change directories
 
 */
-
 
 int myShell::run_cd_command(){
 
@@ -295,7 +269,6 @@ Used in several other functions
 */
 
 bool myShell::validate_var(string & str){
-
 for (int i = 0; i < str.size(); i++) {
     if ( str[i] != '_' && !isalnum(str[i])) 
     	return false;
@@ -312,16 +285,13 @@ Implementation of the built-in  set command which helps us
 set up variables with values in a map
 
 */
-
-
 int myShell::run_set_command(){
 	
 	if(parsed.size() < 2){
 		cerr << "The set command requires more arguments" << endl;
 		return -1;
 	}
-
-
+	
 	else if(parsed.size() > 3){
 
 		cerr << "Too many arguments for the set command" << endl;
@@ -353,12 +323,8 @@ int myShell::run_set_command(){
 			cerr << "The variable name is illegal" << endl;
 			return -1;
 		}
-
-
-
 	}
     
-
 else if(parsed.size() == 3){
 		if(validate_var(parsed[1])){
 			map<string, string>::iterator it = var_map.find(parsed[1]);
@@ -380,12 +346,9 @@ else if(parsed.size() == 3){
 			cout << "The variable name is illegal" << endl;
 			return -1;
 		}
-	
-
 	}
 
 	return 1;
-
 }
 
 
@@ -400,17 +363,12 @@ void myShell::replace_str(string & str, const string & from, const string & to) 
     str.replace(start_pos, from.length(), to);
 }
 
-
-
 /*
 	
 	This function provides the command shell access to variables. If the user inputs
 	$varname, it's value is displayed 
 
 */
-
-
-
 void myShell::replace_var(){
 
 	for(int i = 0; i < parsed.size(); i++){
@@ -479,8 +437,6 @@ void myShell::replace_var(){
 
            				}
            			}
-
-
 
 		} //evaluated substr1
 
@@ -570,13 +526,8 @@ void myShell::replace_var(){
 
 	  } //evaluated both substr1 and substr2
 
-
-}// case where $ exists
-
-
-} //For loop ends, we have gone through all parsed commands and evaluated the variables
-
-
+			}// case where $ exists
+					} //For loop ends, we have gone through all parsed commands and evaluated the variables
 } //function ends
 
 
@@ -586,8 +537,6 @@ void myShell::replace_var(){
  the stored value is numeric or not
 
 */
-
-
 bool myShell::inc_number_helper(const string & str)
 {
     string::const_iterator it = str.begin();
@@ -604,8 +553,6 @@ bool myShell::inc_number_helper(const string & str)
  1.
 	
 */
-
-
 int myShell::run_inc_command(){
 
 if(parsed.size() == 1){
@@ -656,10 +603,7 @@ else if(parsed.size() > 2){
 	return -1;
 }
 
-	
 return 1;
-
-
 }
 
 /*
@@ -671,7 +615,6 @@ return 1;
 
 
 int myShell::run_export_command(){
-
 
 if(parsed.size() == 1){
 
@@ -712,12 +655,9 @@ if(parsed.size() > 2){
 	cerr << "The export command can handle one variable at a time " << endl;
 	return -1;
 }
-
-
 return 1;
 
 }
-
 
 //The main function from where the execution starts
 
@@ -725,8 +665,8 @@ int main(int argc, char ** argv){
 
 	myShell myShell; //Create a shell object
 
-	while(true) //Loop for the shell
-		{
+	while(true){ //Loop for the shell 
+			
 			myShell.command.clear();
 			myShell.parsed.clear();
 
@@ -781,7 +721,6 @@ int main(int argc, char ** argv){
       }
 
 		return EXIT_SUCCESS;
-
 }
    	
 

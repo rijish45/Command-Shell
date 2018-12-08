@@ -10,6 +10,7 @@ Step 1: Read a command name and, run it
 
 
 Case 1: Run ./myShell < testcases/test01.txt 
+File Content: /bin/ls
 Program Behaviour:
 myShell:/Users/rijishganguly/Desktop/Project $ README.md		myShelltestcases
 TESTING.txt		myShell.cpp
@@ -23,6 +24,7 @@ the program exits.
 
 
 Case 2: Run ./myShell < testcases/test02.txt 
+File Content: /bin/ls -alh
 Program Behaviour:
 myShell:/Users/rijishganguly/Desktop/Project $ total 488
 drwxr-xr-x  11 rijishganguly  staff   352B Dec  7 23:08 .
@@ -44,6 +46,7 @@ The program behaviour is justified as the commamd in the text file was /bin/ls -
 
 
 Case 3: Run ./myShell < testcases/test03.txt 
+File Content: /bin/ls -a -l -h
 Program behaviour: 
 myShell:/Users/rijishganguly/Desktop/Project $ total 488
 drwxr-xr-x  11 rijishganguly  staff   352B Dec  7 23:08 .
@@ -64,6 +67,79 @@ Here the program takes the same command as before but the parameters are separat
 After the first program exits, we get another shell prompt for our next command. As the next command in the text file is EOF, the program exits.
 
 
-Case 4: Run ./myShell < testcases/test03.txt
+Case 4: Run ./myShell < testcases/test04.txt
+File Content: 		/bin/ls		-a
+Program behaviour: 
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ .		makefile	myShell.cpp
+..		myShell		myShell.h
+Program exited with status 0
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ 
+
+Here we learn that the program is capable of handling trailing and beginning whitespaces
+
+Case 5: Run ./myShell < testcases/test05.txt
+File Content: ls -$##
+Program Behaviour:
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ /bin/ls: illegal option -- $
+usage: ls [-ABCFGHLOPRSTUWabcdefghiklmnopqrstuwx1] [file ...]
+Program exited with status 1
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ 
+
+Here the ls command takes an illegal parameter. We observe that erro message is displayed. The program exits with status 1 which suggests that the program is working correctly.
+
+
+Case 6: Run ./myShell < testcases/test06.txt
+File Content: whoami
 Program behaviour:
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ rijishganguly
+Program exited with status 0
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ 
+
+
+Case 7: Run ./myShell < testcases/test07.txt
+File Content: jssjjdjj
+Program Behaviour:
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ Command jssjjdjj not found
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ 
+
+Here the program takes an illegal command which is not defined anywhere. We observe that an error message is shown saying Command jssjjdjj not found. This is according to the requirements of the project
+
+Case 8: Run ./myShell < testcases/test08.txt
+File Content: mkdir hello
+Program Behaviour:
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ Program exited with status 0
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ 
+We can observe that all non-built-in valid commands are functioning
+properly
+
+Case 9: Run ./myShell < testcases/test09.txt
+File Content: echo Hello World
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ Hello World
+Program exited with status 0
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ 
+echo works properly and print the message. The exit is a success.
+
+Case 10: Run ./myShell < testcases/test10.txt
+File Content: exit
+Program behaviour:
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ Program exited with status 0
+The exit command is functioning properly as the program quits successfully
+
+
+Case 11: Run ./myShell < testcases/test11.txt
+File Content: cd ../
+Program Behaviour: myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ myShell:/Users/rijishganguly/Desktop/Mini-Project $ 
+We can observe that using the cd command we have moved to the parent directory
+
+Case 12: Run ./myShell < testcases/test12.txt
+File content: cd jsjsjks
+Program Behaviour:
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ -bash: cd: No such file or directory
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ 
+Here we tried to change to a non-existent directory. We observe that an error message has been displayed.
+
+
+
+
+
 
