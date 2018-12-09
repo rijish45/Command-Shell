@@ -1,2 +1,0 @@
-set hello $USER
-echo hello

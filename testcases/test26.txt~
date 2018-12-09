@@ -1,3 +1,0 @@
-set hello 5
-export hello
-env

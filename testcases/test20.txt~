@@ -1,4 +1,0 @@
-set hello 5
-set world 6
-$hello$world
-$hello			$world
