@@ -158,4 +158,4 @@ Step 4: Pipes and redirection
  https://www.gnu.org/software/libc/manual/html_node/index.html#toc-Introduction-1
  for additional background on file descriptors and pipes.
  
-  /anaconda3/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/Postgres.app/Contents/Versions/latest/bin
+ 

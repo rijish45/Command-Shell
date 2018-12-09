@@ -1,3 +1,17 @@
+
+/*
+  Rijish Ganguly
+  rg239
+  ECE 551
+  Command-Shell Mini-Project
+
+ */
+
+
+
+
+
+
 #include <iostream>
 #include <cstdlib>
 #include <string>

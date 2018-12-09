@@ -1,11 +1,16 @@
+Rijish Ganguly
+rg239
+ECE 551
+Command-Shell Mini-Project
+
+
 
 Hello, and welcome to my Command-Shell. In this project, I have implemented all the required features till step 3 of the project desciption.
 In the future, I plan to add piping and re-direction features to this command shell.
 
 In this document, I'm listing the output of the test cases one by one and justifying the behaviour of my command shell.
 
-Step 1: Read a command name and, run it
--------------------------------------------------------
+
 
 
 
@@ -491,8 +496,8 @@ myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $
 In this test-case, we try the inc command with illegal parameters and number of arguments. We observe that appropiate error messages get displayed.
 
 
-Case 30: Run ./myShell < testcase/test29.txt
-File content:
+Case 30: Run ./myShell < testcase/test30.txt
+File Content:
 set PATH ~/Desktop
 export PATH
 ls -a
@@ -502,5 +507,40 @@ myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ The variable PATH ha
 myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ Command ls not found
 myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ 
 In this test-case, we set the PATH environment variable to a new value and export it's value. After that when we run the command ls, we observe that it doesn't work anymore as the search command cannot find the ls program anymore since we have changed the path.
+
+
+
+Case 31: Run ./myShell < testcase/test31.txt
+File Content:
+
+Program Behaviour:
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ 
+In this test-case, we have no input. The program exits once it encounters EOF.
+
+Case 32: ./myShell < testcase/test31.txt
+File Content:
+set var	45
+set hello $PATH
+inc hello
+inc var
+export var
+cd $HOME
+exit
+
+Program Behaviour: 
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ The variable var has been set to 45
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ The variable hello has been set to rijishganguly
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ The variable hello has been incremented to 1
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ The variable var has been incremented to 46
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ The variable var has been exported
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ myShell:/Users/rijishganguly $ Program exited with status 0
+
+In this test-case, we are trying out several different built-in commands.
+The output shows that all of them work properly
+
+
+
+
+
 
 

@@ -1,3 +1,10 @@
+/*
+Rijish Ganguly
+rg239
+ECE 551
+Command-Shell Mini-Project
+ */
+
 #include "myShell.h"
 #include <iostream>
 #include <cstring>
@@ -78,12 +85,6 @@ void myShell::split_input () {
 	istringstream ss(command);
 	for(string str; ss >> str; )
     	parsed.push_back(str);
-
-    // for (int i = 0; i < parsed.size(); i++)
-    // {
-    // 	cout << parsed[i] << endl;
-    // }
-
 }
 
 /*
@@ -192,8 +193,8 @@ while(getline(ss, token, ':'))  //Use : as the delimiter
 
 if(command.find('/') != string::npos){
 
-   ifstream ifs(command.c_str()); 
-   if(ifs.good()) //ifs.good() returns false if the file doesn't exist
+   ifstream fs(command.c_str()); 
+   if(fs.good()) //ifs.good() returns false if the file doesn't exist
    		found = true;
  
 }

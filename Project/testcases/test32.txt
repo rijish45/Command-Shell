@@ -1,0 +1,7 @@
+set var 45
+set hello $USER
+inc hello
+inc var
+export var
+cd $HOME
+exit
