@@ -1,7 +1,0 @@
-set var 45
-set hello $PATH
-inc hello
-inc var
-export var
-cd $HOME
-exit
