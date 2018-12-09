@@ -1,0 +1,4 @@
+set hello 10
+set hello 15
+set hello
+set world

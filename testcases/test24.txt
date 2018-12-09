@@ -1,0 +1,4 @@
+echo $HOME
+cd $HOME
+set dir $HOME
+cd $dir

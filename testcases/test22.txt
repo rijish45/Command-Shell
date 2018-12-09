@@ -1,0 +1,6 @@
+set hello 5
+set world 15
+abc$hello$world
+**$hello###
+abc$hello-
+abc$hello-$world$$$

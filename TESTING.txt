@@ -138,8 +138,369 @@ myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ -bash: cd: No such f
 myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ 
 Here we tried to change to a non-existent directory. We observe that an error message has been displayed.
 
+Case 13: Run ./myShell < testcases/test13.txt
+File Content: 
+mkdir testdir
+ls -al
+rm -r testdir/
+ls -al
+Program Behaviour:
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ Program exited with status 0
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ total 416
+drwxr-xr-x  8 rijishganguly  staff     256 Dec  8 20:58 .
+drwxr-xr-x  9 rijishganguly  staff     288 Dec  8 02:47 ..
+-rw-r--r--@ 1 rijishganguly  staff    6148 Dec  8 20:56 .DS_Store
+-rw-r--r--  1 rijishganguly  staff     119 Dec  8 01:24 makefile
+-rwxr-xr-x  1 rijishganguly  staff  173980 Dec  8 20:57 myShell
+-rw-r--r--@ 1 rijishganguly  staff   16825 Dec  8 20:56 myShell.cpp
+-rw-r--r--  1 rijishganguly  staff    1280 Dec  8 01:24 myShell.h
+drwxr-xr-x  2 rijishganguly  staff      64 Dec  8 20:58 testdir
+Program exited with status 0
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ Program exited with status 0
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ total 416
+drwxr-xr-x  7 rijishganguly  staff     224 Dec  8 20:58 .
+drwxr-xr-x  9 rijishganguly  staff     288 Dec  8 02:47 ..
+-rw-r--r--@ 1 rijishganguly  staff    6148 Dec  8 20:56 .DS_Store
+-rw-r--r--  1 rijishganguly  staff     119 Dec  8 01:24 makefile
+-rwxr-xr-x  1 rijishganguly  staff  173980 Dec  8 20:57 myShell
+-rw-r--r--@ 1 rijishganguly  staff   16825 Dec  8 20:56 myShell.cpp
+-rw-r--r--  1 rijishganguly  staff    1280 Dec  8 01:24 myShell.h
+Program exited with status 0
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ 
+In this testcase, the program takes multiple commands. It first creates a directory called testdir. It then displays the content of the directory. Then the test directory get deleted by the rm -r testdir/ command and we can see the that the directory has been removed when we run the ls -al command again.
+
+
+Case 14: Run ./myShell < testcases/test14.txt
+File Content: ./counts_test
+Program Behaviour:
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ apple: 3
+banana: 1
+frog: 2
+sword: 1
+bear: 1
+zebra: 1
+knight: 1
+<unknown> : 2
+Program exited with status 0
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ 
+In this test-case, I tried to execute a binary from 058_counts exercise. We can observe that the program was executed successfully and its prints the counts. Make sure to have the executable binary in the same folder as myShell.
+
+
+Case 15: Run ./myShell < testcases/test15.txt
+File Content: echo			a		b	c
+Program Behaviour:
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ a b c
+Program exited with status 0
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ 
+The program takes the echo command with arguments separated by whitespace and prints them by skipping thw whitespaces. It exits once the program encounters EOF.
 
 
 
+Case 16: Run ./myShell < testcases/test16.txt
+File Content: /bin/cat myShell.h
+Program Behaviour:
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ #include <iostream>
+#include <cstdlib>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+class myShell{
+
+
+
+public:
+
+
+		string command; //For a single command
+		vector<string> parsed; //Get the parsed string arguments
+	
+		myShell(); //Constructor
+		~myShell(); //Destructor
+		
+		//void delete_spaces(string & str);
+		
+		int get_command(); //Get command from the user
+
+		//Parse the input and store the parameters in a vector
+		void split_input ();
+
+		//Execute a command
+		void execute();
+
+		//Search path to determine if the command exists
+		bool search_command(); 
+
+		//Search path to determine if the command exists
+
+		bool validate_var(string & str); 
+		
+
+		/*
+
+			Built-in command - cd, export, set and inc 
+
+		*/
+		
+		int run_set_command(); //Run the built-in set command
+		int run_cd_command(); //Run the built-in cd command
+		int run_inc_command(); //Run the built-in inc command
+		bool inc_number_helper(const string & str); //Helper function for the inc command
+		int run_export_command(); //Run the built-in export command
+
+
+
+	
+		//The functions required to support to accessing commands
+		
+		void replace_var();	//Replace the variable
+		void replace_str(string & str, const string & from, const string & to); //Helper function for the replace_var function
+
+
+};Program exited with status 0
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ 
+We can observe that the cat program located in the bin is execute properly as it displays the content of the myShell header file. It exits once it encounters EOF.
+
+
+
+Case 17: Run ./myShell < testcases/test17.txt
+File Content: /bin/cat nonexistentfile
+Program behaviour:
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ cat: nonexistentfile: No such file or directory
+Program exited with status 1
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ 
+Here the program cat takes the argument nonexistentfile which doesn't exit. The program works correctly as it exits showing that there is no such file or directory present in the current directory
+
+Case 18: Run ./myShell < testcases/test18.txt
+File Content: ./donotexist
+Program Behaviour: 
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ Command ./donotexist not found
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ 
+In this test case we tried to execute a non-existent binary file. The appropiate error message saying that the command doesn't exist is displayed.
+
+Case 19: Run ./myShell < testcases/test19.txt
+File Content: echo $PATH
+Program Beahviour:
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ /anaconda3/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/Postgres.app/Contents/Versions/latest/bin
+Program exited with status 0
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ 
+We can observe that the shell has access to environment variable PATH. The PATH variable gets evaluated and echoed when echo $PATH is executed.
+
+
+Case 20: Run ./myShell < testcase/test20.txt
+File Content:
+set hello 5
+set world 6
+$hello$world
+echo $hello		$world
+Program Behaviour:
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ The variable hello has been set to 5
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ The variable world has been set to 6
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ 56
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ 5 6
+Program exited with status 0
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ 
+In this test case, we set two variables hello and world with values 5 and 6 respectively. When we run the command $hello$world we see that the variable values get evaluated and printed on the terminal. We also observe that echo prints the values of the two variables.
+
+
+
+Case 21: Run ./myShell < testcase/test21.txt
+File Content:
+set hello 10
+set hello 15
+set hello
+set world
+Program Behaviour:
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ The variable hello has been set to 10
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ The variable hello has been re-set to 15
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ The variable hello has been re-set to whitespace
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ The variable world has been set to whitespace
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ 
+In this iteration, the program takes four commands. We first set the variable value to 10. Then we re-set the value of the variable to 15. 
+In the third command, we don't provide a third argument. Hence, our variable gets set to whitespace. For the fourth command, we define a new variable without a third argument, which gets set to whitespace again.
+
+
+Case 22: Run ./myShell < testcase/test22.txt
+File Content:
+set hello 5
+set world 15
+abc$hello$world
+**$hello###
+abc$hello-
+abc$hello-$world$$$
+Program Behaviour:
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ The variable hello has been set to 5
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ The variable world has been set to 15
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ abc515
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ **5###
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ abc5-
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ abc5-15$$$
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ 
+
+We set the value of two variables hello and world to 5 and 15 and try to evaluate the variables for different cases. We observe that the values get evaluated properly for the different cases.
+
+
+
+Case 23:  Run ./myShell < testcase/test23.txt
+File Content:
+set hello $USER
+echo $hello
+Program Behaviour:
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ The variable hello has been set to rijishganguly
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ rijishganguly
+Program exited with status 0
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ 
+In this program we set the value of a user defined variable using the value of an environment variable. The value of hello gets set to the value of the environment variable USER. When we echo the value of hello we can observe that it has the same value as $USER
+
+Case 24: Run ./myShell < testcase/test24.txt
+File Content:
+echo $HOME
+cd $HOME
+set dir $HOME
+cd $dir
+Program Behaviour:
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ /Users/rijishganguly
+Program exited with status 0
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ myShell:/Users/rijishganguly $ The variable dir has been set to /Users/rijishganguly
+myShell:/Users/rijishganguly $ myShell:/Users/rijishganguly $ 
+In this iteration, at first we display the value of the $HOME environment variable using echo. Then we change to the $HOME directory
+using cd. The $HOME variable gets evaluated and we change into the correct directory. Then we set a new variable dir with the same value as $HOME. We then try to change directory using our defined variable. We observe that we are in the correct directory.
+
+
+Case 25: Run ./myShell < testcase/test25.txt
+File Content: set #&&#* 5
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ The variable name is illegal
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ 
+In this iteration, we try to define a variable with illegal characters. We observe the error message that the variable name is illegal
+
+Case 26: Run ./myShell < testcase/test26.txt
+File Content: 
+set hello 5
+export hello
+env
+Program behaviour:
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ The variable hello has been set to 5
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ TERM_PROGRAM=Apple_Terminal
+SHELL=/bin/bash
+TERM=xterm-256color
+TMPDIR=/var/folders/r0/5hwqt3pd7w380fhjc7swdz_c0000gn/T/
+CONDA_SHLVL=1
+Apple_PubSub_Socket_Render=/private/tmp/com.apple.launchd.Hjlg6Hpxx8/Render
+CONDA_PROMPT_MODIFIER=
+TERM_PROGRAM_VERSION=421.1
+TERM_SESSION_ID=A3A3B750-B4D3-4F37-A190-7BB08F9E2B73
+USER=rijishganguly
+CONDA_EXE=/anaconda3/bin/conda
+SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.TZUUSOPpE0/Listeners
+PATH=/anaconda3/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/Postgres.app/Contents/Versions/latest/bin
+CONDA_PREFIX=/anaconda3
+PWD=/Users/rijishganguly/Desktop/Mini-Project/Project
+LANG=en_US.UTF-8
+XPC_FLAGS=0x0
+XPC_SERVICE_NAME=0
+SHLVL=1
+HOME=/Users/rijishganguly
+CONDA_PYTHON_EXE=/anaconda3/bin/python
+LOGNAME=rijishganguly
+CONDA_DEFAULT_ENV=base
+SECURITYSESSIONID=186a6
+_=./myShell
+OLDPWD=/Users/rijishganguly/Desktop/Mini-Project/Project/058_counts
+Program exited with status 0
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ The variable hello has been exported
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ TERM_PROGRAM=Apple_Terminal
+SHELL=/bin/bash
+TERM=xterm-256color
+TMPDIR=/var/folders/r0/5hwqt3pd7w380fhjc7swdz_c0000gn/T/
+CONDA_SHLVL=1
+Apple_PubSub_Socket_Render=/private/tmp/com.apple.launchd.Hjlg6Hpxx8/Render
+CONDA_PROMPT_MODIFIER=
+TERM_PROGRAM_VERSION=421.1
+TERM_SESSION_ID=A3A3B750-B4D3-4F37-A190-7BB08F9E2B73
+USER=rijishganguly
+CONDA_EXE=/anaconda3/bin/conda
+SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.TZUUSOPpE0/Listeners
+PATH=/anaconda3/bin:/Library/Frameworks/Python.framework/Versions/3.7/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Applications/Postgres.app/Contents/Versions/latest/bin
+CONDA_PREFIX=/anaconda3
+PWD=/Users/rijishganguly/Desktop/Mini-Project/Project
+LANG=en_US.UTF-8
+XPC_FLAGS=0x0
+XPC_SERVICE_NAME=0
+SHLVL=1
+HOME=/Users/rijishganguly
+CONDA_PYTHON_EXE=/anaconda3/bin/python
+LOGNAME=rijishganguly
+CONDA_DEFAULT_ENV=base
+SECURITYSESSIONID=186a6
+_=./myShell
+OLDPWD=/Users/rijishganguly/Desktop/Mini-Project/Project/058_counts
+hello=5
+Program exited with status 0
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ 
+
+
+In this iterationm, we set the value of the variable hello to 5. Then we run the command env and observe that the hello along with it's value is not printed along with other environment variables. Then we export the variable hello and run env again. The message that the variable has been exported appears. Then we run the command env again and observe that the variable has been added to the environment.
+
+
+Case 26: Run ./myShell < testcase/test27.txt
+File Content: 
+set hello 45 69
+set
+export ^^^&&
+export hello
+export
+Program Behaviour:
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ Too many arguments for the set command
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ The set command requires more arguments
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ The variable name ^^^&& is not valid
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ The variable has not been defined yet. Set it first 
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ The export command requires more arguments
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project 
+In this iteration we check the command set and export with illegal arguments numbers and variable names. We can observe that an error message is displayed for each case.
+
+
+Case 28: Run ./myShell < testcase/test28.txt
+File Content:
+set var 15
+inc var
+$var
+set var hello
+inc var
+$var
+Program Behaviour:
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ The variable var has been set to 15
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ The variable var has been incremented to 16
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ 16
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ The variable var has been re-set to hello
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ The variable var has been incremented to 1
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ 1
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ 
+In this iteration, we test the inc command. We first set the value of a variable named var to 15. We increment it's value and when we run the command $var after incrementing, we observe that it's value has increased to 16. Now, we set the value of the variable var to a non-numeric value. We then try to increment its value and observe that it's value has been incremented to 1 according to program specifications.
+
+Case 29: Run ./myShell < testcase/test29.txt
+File Content:
+inc #&##*
+inc hello
+inc
+Program Behaviour:
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ The variable name is illegal
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ The variable hello has been incremented to 1
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ The inc command requires more arguments
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ 
+In this test-case, we try the inc command with illegal parameters and number of arguments. We observe that appropiate error messages get displayed.
+
+
+Case 30: Run ./myShell < testcase/test29.txt
+File content:
+set PATH ~/Desktop
+export PATH
+ls -a
+Program Behaviour:
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ The variable PATH has been set to ~/Desktop
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ The variable PATH has been exported
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ Command ls not found
+myShell:/Users/rijishganguly/Desktop/Mini-Project/Project $ 
+In this test-case, we set the PATH environment variable to a new value and export it's value. After that when we run the command ls, we observe that it doesn't work anymore as the search command cannot find the ls program anymore since we have changed the path.
 
 

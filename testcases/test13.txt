@@ -1,0 +1,4 @@
+mkdir testdir
+ls -al
+rm -r testdir/
+ls -al

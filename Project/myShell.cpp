@@ -177,7 +177,6 @@ void myShell::execute(){
 
 */
 
-
 bool myShell::search_command(){
 char * path = getenv("PATH");  //Get the path variable 
 bool found = false;
@@ -352,7 +351,6 @@ else if(parsed.size() == 3){
 }
 
 
-
 /*
 	This function acts as a helper to replace_var. It takes three input parameters and replaces a
 	substring with another one
@@ -362,6 +360,7 @@ void myShell::replace_str(string & str, const string & from, const string & to) 
     size_t start_pos = str.find(from);
     str.replace(start_pos, from.length(), to);
 }
+
 
 /*
 	
@@ -637,6 +636,8 @@ if(parsed.size() == 2){
 				perror("The export command encountered a problem");
 				return -1;
 			}
+			else
+				cout << "The variable " << parsed[1] << " has been exported" << endl;
 		}
 	
 

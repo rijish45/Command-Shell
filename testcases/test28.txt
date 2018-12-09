@@ -1,0 +1,6 @@
+set var 15
+inc var
+$var
+set var hello
+inc var
+$var

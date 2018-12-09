@@ -1,0 +1,4 @@
+set hello 5
+env
+export hello
+env

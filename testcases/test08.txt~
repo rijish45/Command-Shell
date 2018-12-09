@@ -1,4 +1,0 @@
-mkdir hello
-ls
-rm -r hello/
-ls 
