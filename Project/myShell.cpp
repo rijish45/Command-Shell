@@ -224,12 +224,11 @@ change directories
 
 */
 
-int myShell::run_cd_command(){
+void myShell::run_cd_command(){
 
 if(parsed.size() > 2){
 
 	cerr << "Too many arguments for cd" << endl;
-	return -1;
 }
 
 //If there is no other argument after cd or the argument is ~, we change to the home directory
@@ -238,22 +237,18 @@ else if(parsed.size() == 1 || parsed[1] == "~"){
 
 	string destination = getenv("HOME");  
 	if(chdir(destination.c_str()) >= 0 ){
-		return 1;
 	}
 	else {
         perror("-bash: cd");
-        return -1;
     }
 
 }
 else{ //Change to the desired directory
 
 		if(chdir(parsed[1].c_str()) >= 0){
-			return 1;
 		}
 		else{
 			perror("-bash: cd");
-        	return -1;
         }
 	}
 
@@ -280,23 +275,17 @@ for (int i = 0; i < str.size(); i++) {
 
 
 /*
-
 Implementation of the built-in  set command which helps us
 set up variables with values in a map
-
 */
-int myShell::run_set_command(){
+void myShell::run_set_command(){
 	
 	if(parsed.size() < 2){
 		cerr << "The set command requires more arguments" << endl;
-		return -1;
 	}
 	
 	else if(parsed.size() > 3){
-
 		cerr << "Too many arguments for the set command" << endl;
-		return -1;
-
 	} 
 	 //If the third argument is not provided, the value of the variable is set to whitespace
 
@@ -316,12 +305,11 @@ int myShell::run_set_command(){
 			
 			}
 		
-           return 1;
+           //return 1;
 		}
 
 		else if(!validate_var(parsed[1])){ //If the variable name is not valid, display error message
 			cerr << "The variable name is illegal" << endl;
-			return -1;
 		}
 	}
     
@@ -339,16 +327,12 @@ else if(parsed.size() == 3){
 				cout << "The variable " << parsed[1] << " has been re-set to " << parsed[2] << endl;
 				//cout << var_map[parsed[1]] << endl;
 			}
-			return 1;
 		}
 
 		else if(!validate_var(parsed[1])){
 			cout << "The variable name is illegal" << endl;
-			return -1;
 		}
 	}
-
-	return 1;
 }
 
 
@@ -553,11 +537,10 @@ bool myShell::inc_number_helper(const string & str)
  1.
 	
 */
-int myShell::run_inc_command(){
+void myShell::run_inc_command(){
 
 if(parsed.size() == 1){
   cerr << "The inc command requires more arguments" << endl;
-  return -1;
 }
 
 else if (parsed.size() == 2){
@@ -592,7 +575,6 @@ else if (parsed.size() == 2){
 
 else{
 		cerr << "The variable name is illegal" << endl;
-		return -1;
 	}
 
 }
@@ -600,11 +582,8 @@ else{
 else if(parsed.size() > 2){
 
 	cerr << "The inc command can handle on variable at a time" << endl;
-	return -1;
 }
-
-return 1;
-}
+	}
 
 /*
 
@@ -614,12 +593,12 @@ return 1;
 */
 
 
-int myShell::run_export_command(){
+void myShell::run_export_command(){
 
 if(parsed.size() == 1){
 
 	cerr << "The export command requires more arguments" << endl;
-	return -1;
+	//return -1;
 }
 
 if(parsed.size() == 2){
@@ -629,13 +608,11 @@ if(parsed.size() == 2){
 		map<string, string>::iterator it = var_map.find(parsed[1]);
 		if(it == var_map.end()){ // A variable cannot be exported if it's not been set
 			cout << "The variable has not been defined yet. Set it first " << endl;
-			return -1;
 		}
 		else
 		{		
 			if ( setenv(it->first.c_str(), it->second.c_str(), 1) != 0) {
 				perror("The export command encountered a problem");
-				return -1;
 			}
 			else
 				cout << "The variable " << parsed[1] << " has been exported" << endl;
@@ -646,20 +623,15 @@ if(parsed.size() == 2){
 
 	else { 
 		cerr << "The variable name " << parsed[1] << " is not valid" << endl;
-		return -1;
 	}
 	
 
 }
 
 if(parsed.size() > 2){
-
 	cerr << "The export command can handle one variable at a time " << endl;
-	return -1;
 }
-return 1;
-
-}
+	}
 
 //The main function from where the execution starts
 
@@ -683,21 +655,21 @@ int main(int argc, char ** argv){
       			
       			
       			
-      			int status;
+      			//int status;
       			if(myShell.parsed[0] == "cd"){ //The cd command can take $variable 
       				
       				myShell.replace_var();
-      				status = myShell.run_cd_command();
+      				myShell.run_cd_command();
       			}
       			else if(myShell.parsed[0] == "set"){ //The set command can take $variable as the third argument
       				
       				myShell.replace_var();
-      				status = myShell.run_set_command();
+      				myShell.run_set_command();
       			}
       			else if(myShell.parsed[0] == "inc") //The inc command
-      				status = myShell.run_inc_command();
+      				myShell.run_inc_command();
       			else if(myShell.parsed[0] == "export") //The export command
-      				status = myShell.run_export_command();
+      				myShell.run_export_command();
       			else if(myShell.parsed[0].find("$") != string::npos && (myShell.parsed.size() == 1)){
       				myShell.replace_var();
       				cout << myShell.parsed[0] << endl;

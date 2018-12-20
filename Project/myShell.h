@@ -8,10 +8,6 @@
  */
 
 
-
-
-
-
 #include <iostream>
 #include <cstdlib>
 #include <string>
@@ -50,22 +46,18 @@ public:
 		bool validate_var(string & str); 
 		
 
-		/*
-
-			Built-in command - cd, export, set and inc 
-
-		*/
+  //Built-in commands
 		
-		int run_set_command(); //Run the built-in set command
-		int run_cd_command(); //Run the built-in cd command
-		int run_inc_command(); //Run the built-in inc command
+		void run_set_command(); //Run the built-in set command
+		void run_cd_command(); //Run the built-in cd command
+		void run_inc_command(); //Run the built-in inc command
 		bool inc_number_helper(const string & str); //Helper function for the inc command
-		int run_export_command(); //Run the built-in export command
+		void run_export_command(); //Run the built-in export command
 
 
 
 	
-		//The functions required to support to accessing commands
+		//The functions required to support to accessing variables
 		
 		void replace_var();	//Replace the variable
 		void replace_str(string & str, const string & from, const string & to); //Helper function for the replace_var function
